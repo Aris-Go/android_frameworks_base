@@ -780,6 +780,44 @@ android_media_AudioSystem_setVolumeIndexForAttributes(JNIEnv *env,
 }
 
 static jint
+android_media_AudioSystem_getMinVolumeIndexForAttributes(JNIEnv *env,
+                                                         jobject thiz,
+                                                         jobject jaa)
+{
+    // read the AudioAttributes values
+    JNIAudioAttributeHelper::UniqueAaPtr paa = JNIAudioAttributeHelper::makeUnique();
+    jint jStatus = JNIAudioAttributeHelper::nativeFromJava(env, jaa, paa.get());
+    if (jStatus != AUDIO_JAVA_SUCCESS) {
+        return jStatus;
+    }
+    int index;
+    if (AudioSystem::getMinVolumeIndexForAttributes(*(paa.get()), index)
+        != NO_ERROR) {
+        index = -1;
+    }
+    return index;
+}
+
+static jint
+android_media_AudioSystem_getMaxVolumeIndexForAttributes(JNIEnv *env,
+                                                         jobject thiz,
+                                                         jobject jaa)
+{
+    // read the AudioAttributes values
+    JNIAudioAttributeHelper::UniqueAaPtr paa = JNIAudioAttributeHelper::makeUnique();
+    jint jStatus = JNIAudioAttributeHelper::nativeFromJava(env, jaa, paa.get());
+    if (jStatus != AUDIO_JAVA_SUCCESS) {
+        return jStatus;
+    }
+    int index;
+    if (AudioSystem::getMaxVolumeIndexForAttributes(*(paa.get()), index)
+        != NO_ERROR) {
+        index = -1;
+    }
+    return index;
+}
+
+static jint
 android_media_AudioSystem_getVolumeIndexForAttributes(JNIEnv *env,
                                                       jobject thiz,
                                                       jobject jaa,
@@ -800,19 +838,44 @@ android_media_AudioSystem_getVolumeIndexForAttributes(JNIEnv *env,
     return index;
 }
 
+
+
 static jint
-android_media_AudioSystem_getMinVolumeIndexForAttributes(JNIEnv *env,
-                                                         jobject thiz,
-                                                         jobject jaa)
+android_media_AudioSystem_setVolumeGroupVolumeIndex(JNIEnv *env,
+                                                    jobject thiz,
+                                                    jint groupId,
+                                                    jint index,
+                                                    int device)
 {
-    // read the AudioAttributes values
-    JNIAudioAttributeHelper::UniqueAaPtr paa = JNIAudioAttributeHelper::makeUnique();
-    jint jStatus = JNIAudioAttributeHelper::nativeFromJava(env, jaa, paa.get());
-    if (jStatus != AUDIO_JAVA_SUCCESS) {
-        return jStatus;
-    }
+    return (jint) check_AudioSystem_Command(
+            AudioSystem::setVolumeGroupVolumeIndex(static_cast<volume_group_t>(groupId),
+                                                   index,
+                                                   static_cast<audio_devices_t>(device)));
+}
+
+static jint
+android_media_AudioSystem_getVolumeGroupVolumeIndex(JNIEnv *env,
+                                                   jobject thiz,
+                                                   jint groupId,
+                                                   jint device)
+{
     int index;
-    if (AudioSystem::getMinVolumeIndexForAttributes(*(paa.get()), index)
+    if (AudioSystem::getVolumeGroupVolumeIndex(static_cast<volume_group_t>(groupId),
+                                               index,
+                                               static_cast<audio_devices_t>(device))
+        != NO_ERROR) {
+        index = -1;
+    }
+    return (jint) index;
+}
+
+static jint
+android_media_AudioSystem_getVolumeGroupMinVolumeIndex(JNIEnv *env,
+                                                       jobject thiz,
+                                                       jint groupId)
+{
+    int index;
+    if (AudioSystem::getVolumeGroupMinVolumeIndex(static_cast<volume_group_t>(groupId), index)
             != NO_ERROR) {
         index = -1;
     }
@@ -820,18 +883,12 @@ android_media_AudioSystem_getMinVolumeIndexForAttributes(JNIEnv *env,
 }
 
 static jint
-android_media_AudioSystem_getMaxVolumeIndexForAttributes(JNIEnv *env,
-                                                         jobject thiz,
-                                                         jobject jaa)
+android_media_AudioSystem_getVolumeGroupMaxVolumeIndex(JNIEnv *env,
+                                                       jobject thiz,
+                                                       jint groupId)
 {
-    // read the AudioAttributes values
-    JNIAudioAttributeHelper::UniqueAaPtr paa = JNIAudioAttributeHelper::makeUnique();
-    jint jStatus = JNIAudioAttributeHelper::nativeFromJava(env, jaa, paa.get());
-    if (jStatus != AUDIO_JAVA_SUCCESS) {
-        return jStatus;
-    }
     int index;
-    if (AudioSystem::getMaxVolumeIndexForAttributes(*(paa.get()), index)
+    if (AudioSystem::getVolumeGroupMaxVolumeIndex(static_cast<volume_group_t>(groupId), index)
             != NO_ERROR) {
         index = -1;
     }
@@ -3418,6 +3475,18 @@ static const JNINativeMethod gMethods[] =
          MAKE_JNI_NATIVE_METHOD("getMaxVolumeIndexForAttributes",
                                 "(Landroid/media/AudioAttributes;)I",
                                 android_media_AudioSystem_getMaxVolumeIndexForAttributes),
+         MAKE_JNI_NATIVE_METHOD("setVolumeGroupVolumeIndex",
+                                "(III)I",
+                                android_media_AudioSystem_setVolumeGroupVolumeIndex),
+         MAKE_JNI_NATIVE_METHOD("getVolumeGroupVolumeIndex",
+                                "(II)I",
+                                android_media_AudioSystem_getVolumeGroupVolumeIndex),
+         MAKE_JNI_NATIVE_METHOD("getVolumeGroupMinVolumeIndex",
+                                "(I)I",
+                                android_media_AudioSystem_getVolumeGroupMinVolumeIndex),
+         MAKE_JNI_NATIVE_METHOD("getVolumeGroupMaxVolumeIndex",
+                                "(I)I",
+                                android_media_AudioSystem_getVolumeGroupMaxVolumeIndex),
          MAKE_AUDIO_SYSTEM_METHOD(setMasterVolume),
          MAKE_AUDIO_SYSTEM_METHOD(getMasterVolume),
          MAKE_AUDIO_SYSTEM_METHOD(setMasterMute),

@@ -16,6 +16,9 @@
 
 package android.media;
 
+import static android.media.audiopolicy.Flags.FLAG_VOLUME_GROUP_MANAGEMENT_UPDATE;
+
+import android.annotation.FlaggedApi;
 import android.annotation.IntDef;
 import android.annotation.NonNull;
 import android.annotation.Nullable;
@@ -1777,6 +1780,7 @@ public class AudioSystem
     private static native int setStreamVolumeIndex(int stream, int index, int device);
     /** @hide */
     public static native int getStreamVolumeIndex(int stream, int device);
+
     /**
      * @hide
      * set a volume for the given {@link AudioAttributes} and for all other stream that belong to
@@ -1788,13 +1792,13 @@ public class AudioSystem
      */
     public static native int setVolumeIndexForAttributes(@NonNull AudioAttributes attributes,
                                                          int index, int device);
-   /**
-    * @hide
-    * get the volume index for the given {@link AudioAttributes}.
-    * @param attributes the {@link AudioAttributes} to be considered
-    * @param device the volume device to be considered
-    * @return volume index for the given {@link AudioAttributes} and volume device.
-    */
+    /**
+     * @hide
+     * get the volume index for the given {@link AudioAttributes}.
+     * @param attributes the {@link AudioAttributes} to be considered
+     * @param device the volume device to be considered
+     * @return volume index for the given {@link AudioAttributes} and volume device.
+     */
     public static native int getVolumeIndexForAttributes(@NonNull AudioAttributes attributes,
                                                          int device);
     /**
@@ -1811,6 +1815,49 @@ public class AudioSystem
      * @return maximum volume index for the given {@link AudioAttributes}.
      */
     public static native int getMaxVolumeIndexForAttributes(@NonNull AudioAttributes attributes);
+
+    /**
+     * Set a volume for the given group id and device type.
+     * @param groupId the {@link AudioVolumeGroup} id to be considered
+     * @param index to be applied
+     * @param device the volume device to be considered
+     * @return command completion status.
+     *
+     * @hide
+     */
+    @FlaggedApi(FLAG_VOLUME_GROUP_MANAGEMENT_UPDATE)
+    public static native int setVolumeGroupVolumeIndex(int groupId, int index, int device);
+
+    /**
+     * Get the volume index for the given group id and device.
+     * @param groupId the {@link AudioVolumeGroup} id to be considered
+     * @param device the volume device to be considered
+     * @return volume index for the given {@link AudioAttributes} and volume device.
+     *
+     * @hide
+     */
+    @FlaggedApi(FLAG_VOLUME_GROUP_MANAGEMENT_UPDATE)
+    public static native int getVolumeGroupVolumeIndex(int groupId, int device);
+
+    /**
+     * Get the minimum volume index for the given group id.
+     * @param groupId the {@link AudioVolumeGroup} id to be considered
+     * @return minimum volume index for the given {@link AudioAttributes}.
+     *
+     * @hide
+     */
+    @FlaggedApi(FLAG_VOLUME_GROUP_MANAGEMENT_UPDATE)
+    public static native int getVolumeGroupMinVolumeIndex(int groupId);
+
+    /**
+     * Get the maximum volume index for the given group id.
+     * @param groupId the {@link AudioVolumeGroup} id to be considered
+     * @return maximum volume index for the given {@link AudioAttributes}.
+     *
+     * @hide
+     */
+    @FlaggedApi(FLAG_VOLUME_GROUP_MANAGEMENT_UPDATE)
+    public static native int getVolumeGroupMaxVolumeIndex(int groupId);
 
     /** @hide */
     public static native int setMasterVolume(float value);
