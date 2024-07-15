@@ -4031,13 +4031,21 @@ public final class MediaCodecInfo {
          * Query whether a bitrate mode is supported.
          */
         public boolean isBitrateModeSupported(int mode) {
-            for (Feature feat: bitrates) {
-                if (mode == feat.mValue) {
-                    return (mBitControl & (1 << mode)) != 0;
+            if (GetFlag(() -> android.media.codec.Flags.nativeCapabilites())) {
+                return native_isBitrateModeSupported(mode);
+            } else {
+                for (Feature feat: bitrates) {
+                    if (mode == feat.mValue) {
+                        return (mBitControl & (1 << mode)) != 0;
+                    }
                 }
+                return false;
             }
-            return false;
         }
+
+        private native boolean native_isBitrateModeSupported(int mode);
+
+        private long mNativeContext; // accessed by native methods
 
         private Range<Integer> mQualityRange;
         private Range<Integer> mComplexityRange;
@@ -4045,6 +4053,12 @@ public final class MediaCodecInfo {
 
         /* no public constructor */
         private EncoderCapabilities() { }
+
+        /* package private */ EncoderCapabilities(Range<Integer> qualityRange,
+                Range<Integer> complexityRange) {
+            mQualityRange = qualityRange;
+            mComplexityRange = complexityRange;
+        }
 
         /** @hide */
         public static EncoderCapabilities create(
@@ -4193,6 +4207,13 @@ public final class MediaCodecInfo {
             Integer quality = (Integer)map.get(MediaFormat.KEY_QUALITY);
 
             return supports(complexity, quality, profile);
+        }
+
+        private static native void native_init();
+
+        static {
+            System.loadLibrary("media_jni");
+            native_init();
         }
     };
 
