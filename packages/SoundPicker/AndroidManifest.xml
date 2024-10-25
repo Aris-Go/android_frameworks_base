@@ -28,6 +28,7 @@
                   android:theme="@style/PickerDialogTheme"
                   android:enabled="@*android:bool/config_defaultRingtonePickerEnabled"
                   android:excludeFromRecents="true"
+                  android:launchMode="singleTask"
                   android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.RINGTONE_PICKER" />
