@@ -1,0 +1,3 @@
+set noparent
+
+include platform/packages/modules/ConfigInfrastructure:/OWNERS

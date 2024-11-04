@@ -79,6 +79,7 @@ aconfig_declarations_group {
         "backstage_power_flags_lib",
         "backup_flags_lib",
         "camera_platform_flags_core_java_lib",
+        "com.android.configinfrastructure.flags-aconfig-java",
         "com.android.hardware.input-aconfig-java",
         "com.android.input.flags-aconfig-java",
         "com.android.internal.compat.flags-aconfig-java",
@@ -1547,4 +1548,21 @@ cc_aconfig_library {
         "com.android.adbd",
     ],
     min_sdk_version: "apex_inherit",
+}
+
+// Aconfig Storage
+aconfig_declarations {
+    name: "com.android.configinfrastructure.flags-aconfig",
+    package: "com.android.configinfrastructure.flags",
+    container: "system",
+    exportable: true,
+    srcs: [
+        "configInfrastructure/flags/flags.aconfig",
+    ],
+}
+
+java_aconfig_library {
+    name: "com.android.configinfrastructure.flags-aconfig-java",
+    aconfig_declarations: "com.android.configinfrastructure.flags-aconfig",
+    defaults: ["framework-minus-apex-aconfig-java-defaults"],
 }
