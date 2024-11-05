@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42ee4228_bce13417",
+        "filename": "Android.bp",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1039338
+      },
+      "writtenOn": "2024-11-05T09:53:52Z",
+      "side": 1,
+      "message": "I would avoid capital letters in the name to be consistent with the others, e.g. use `framework-configinfrastructure-sources` instead as it starts with the name of the module, i.e. `framework-configinfrastructure`.\n\nAlso, the name of the directory should be `configinfrastructure` not `configInfrastructure`.",
+      "range": {
+        "startLine": 68,
+        "startChar": 26,
+        "endLine": 68,
+        "endChar": 27
+      },
+      "revId": "5aab732046782026aab33ed146d46941e2f73859",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "287462a9_41ab4e98",
+        "filename": "configInfrastructure/srcs/android/platform/aconfig/AconfigPackageLocal.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1039338
+      },
+      "writtenOn": "2024-11-05T09:53:52Z",
+      "side": 1,
+      "message": "You don\u0027t need to annotate members of a class that is annotated with `@FlaggedApi`.",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 53
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "59d550d8_2d1fed5f",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "configInfrastructure/srcs/android/platform/aconfig/AconfigPackageLocal.java",
+              "range": {
+                "startLine": 68,
+                "startChar": 0,
+                "endLine": 70,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "configInfrastructure/srcs/android/platform/aconfig/AconfigPackageLocal.java",
+              "range": {
+                "startLine": 109,
+                "startChar": 0,
+                "endLine": 111,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "5aab732046782026aab33ed146d46941e2f73859",
+      "serverId": "85c56323-6fa9-3386-8a01-6480fb634889"
+    }
+  ]
+}
