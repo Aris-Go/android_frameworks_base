@@ -113,6 +113,15 @@
       "host": true
     },
     {
+<<<<<<< PATCH SET (40c67f Make aosp-main _mostly_ in sync with goog/main)
+      "name": "FrameworksServicesTestsRavenwood",
+||||||| BASE
+      "name": "FrameworksMockingServicesTestsRavenwood",
+      "host": true
+    },
+    {
+      "name": "FrameworksServicesTestsRavenwood",
+=======
       "name": "FrameworksMockingServicesTestsRavenwood",
       "host": true
     },
@@ -122,6 +131,7 @@
     },
     {
       "name": "FrameworksServicesTestsRavenwood_Uri",
+>>>>>>> BASE      (7c8b79 Merge changes from topic "get_attestation_input" into main)
       "host": true
     },
     {
